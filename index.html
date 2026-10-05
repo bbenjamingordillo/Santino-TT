@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Santino TT — Tattoo Studio</title>
-<meta name="description" content="Santino Roselli — tatuador en Córdoba, Argentina. Blackwork, microrrealismo, dotwork y línea fina. Diseños disponibles, agenda por MD.">
+<meta name="description" content="Santino Roselli — tatuador en Córdoba, Argentina. Blackwork, microrrealismo, dotwork y línea fina. Diseños disponibles, turnos por WhatsApp o Instagram.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -49,15 +49,6 @@ img{display:block;max-width:100%}
 .loader__count{font-family:var(--display);font-size:clamp(96px,22vw,320px);line-height:.8;align-self:flex-end}
 .loader__bar{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--green)}
 
-/* ---------- cursor ---------- */
-.cursor,.cursor-dot{position:fixed;top:0;left:0;pointer-events:none;z-index:95;border-radius:50%;mix-blend-mode:difference}
-.cursor{width:38px;height:38px;margin:-19px 0 0 -19px;border:1px solid #fff;transition:width .35s,height .35s,margin .35s,background .35s;display:grid;place-items:center}
-.cursor span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#000;opacity:0;transition:opacity .2s}
-.cursor.is-hover{width:84px;height:84px;margin:-42px 0 0 -42px;background:#fff}
-.cursor.is-hover span{opacity:1}
-.cursor-dot{width:5px;height:5px;margin:-2.5px 0 0 -2.5px;background:#fff}
-@media (hover:none){.cursor,.cursor-dot{display:none}}
-
 /* ---------- nav ---------- */
 .nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:18px var(--pad);background:var(--ink);border-bottom:1px solid var(--line);color:var(--bone)}
 .nav__logo{font-family:var(--display);font-size:22px;letter-spacing:.02em;display:flex;align-items:baseline;gap:4px}
@@ -68,7 +59,20 @@ img{display:block;max-width:100%}
 .nav__links a span:last-child{position:absolute;top:100%}
 .nav__links a:hover span{transform:translateY(-100%)}
 .nav__cta{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--bone);border-radius:99px;padding:10px 18px;transition:background .3s,color .3s,border-color .3s}
-.nav__cta:hover{background:var(--green);border-color:var(--green)}
+.nav__cta:hover,.nav__book.open .nav__cta{background:var(--green);border-color:var(--green)}
+.nav__cta{cursor:pointer;color:inherit;background:none}
+.nav__caret{display:inline-block;transition:transform .3s}
+.nav__book{position:relative}
+.nav__book.open .nav__caret{transform:rotate(180deg)}
+.nav__menu{position:absolute;right:0;top:calc(100% + 10px);min-width:240px;background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:6px;display:flex;flex-direction:column;opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .3s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.nav__book.open .nav__menu{opacity:1;transform:none;pointer-events:auto}
+.nav__menu a{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:12px 14px;border-radius:10px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;transition:background .25s}
+.nav__menu a small{font-size:10px;color:var(--bone-dim);text-transform:none;letter-spacing:.02em}
+.nav__menu a:hover{background:var(--ink-3)}
+.nav__menu a:first-child:hover span{color:var(--green)}
+.nav__menu a:last-child:hover span{color:var(--blue)}
+.qa__a a{color:var(--bone);border-bottom:1px solid var(--blue)}
+.qa__a a:hover{color:var(--blue)}
 @media (max-width:820px){.nav__links{display:none}}
 
 /* ---------- hero ---------- */
@@ -189,24 +193,31 @@ section{position:relative}
 .work{padding-top:clamp(96px,14vw,200px);overflow:hidden}
 .work__head{padding:0 var(--pad);display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
 .work__hint{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--bone-dim)}
-.work__pin{height:100vh;display:flex;align-items:center}
-.work__track{display:flex;gap:clamp(16px,2vw,32px);padding:0 var(--pad);will-change:transform}
-.card{flex:none;width:clamp(260px,28vw,420px);display:flex;flex-direction:column;gap:14px}
-.card:nth-child(even){margin-top:12vh}
+.work__ctrl{display:flex;align-items:center;gap:16px}
+.work__arrows{display:flex;gap:8px}
+.work__arrows button{all:unset;cursor:pointer;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:18px;transition:background .3s,border-color .3s,color .3s,opacity .3s}
+.work__arrows button:hover{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.work__arrows button:focus-visible{outline:1px solid var(--blue);outline-offset:3px}
+.work__arrows button:disabled{opacity:.3;cursor:default;background:none;color:var(--bone);border-color:var(--line)}
+.work__pin{padding:56px 0 64px;position:relative}
+.work__track{display:flex;gap:clamp(16px,2vw,32px);padding:0 var(--pad);overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:var(--pad);scrollbar-width:none;user-select:none}
+.work__track::-webkit-scrollbar{display:none}
+.work__track.dragging{scroll-snap-type:none}
+.work__track.dragging .card{pointer-events:none}
+.work__track img,.work__track svg{-webkit-user-drag:none}
+.card{flex:none;width:clamp(260px,28vw,420px);display:flex;flex-direction:column;gap:14px;scroll-snap-align:start}
+.card:nth-child(even){margin-top:8vh}
 .card__img{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--ink-2);border:1px solid var(--line)}
 .card__img .media{position:absolute;inset:0;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
 .card:hover .card__img .media{transform:scale(1.06)}
 .card__meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
 .card__meta span:last-child{color:var(--bone-dim)}
-.work__progress{position:absolute;left:var(--pad);right:var(--pad);bottom:32px;height:1px;background:var(--line)}
+.work__progress{position:absolute;left:var(--pad);right:var(--pad);bottom:24px;height:1px;background:var(--line)}
 .work__progress i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--blue)}
 @media (max-width:820px){
-  .work__pin{height:auto;padding:56px 0}
-  .work__track{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .work__track::-webkit-scrollbar{display:none}
-  .card{scroll-snap-align:start;width:76vw}
+  .work__arrows{display:none}
+  .card{width:76vw}
   .card:nth-child(even){margin-top:0}
-  .work__progress{display:none}
 }
 
 /* ---------- media (placeholders con arte lineal / fotos reales) ---------- */
@@ -260,19 +271,6 @@ section{position:relative}
 .qa__a p{padding:0 0 28px;color:var(--bone-dim);font-size:16px;line-height:1.6;max-width:560px}
 @media (max-width:820px){.faq{grid-template-columns:1fr}}
 
-/* ---------- CTA ---------- */
-.cta{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px var(--pad);overflow:hidden;border-top:1px solid var(--line)}
-.cta__small{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--bone-dim);margin-bottom:24px}
-.cta__big{font-family:var(--display);text-transform:uppercase;font-size:clamp(72px,16vw,280px);line-height:.84}
-.cta__big .g{font-family:var(--gothic);font-style:italic;text-transform:none;font-size:1em;color:var(--green)}
-.cta__btn{margin-top:56px;width:clamp(150px,16vw,200px);aspect-ratio:1;border-radius:50%;background:var(--bone);color:var(--ink);display:grid;place-items:center;font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.08em;position:relative;will-change:transform;transition:background .4s,color .4s}
-.cta__btn:hover{background:var(--green);color:var(--bone)}
-.cta__btn span{display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
-.cta__btn span svg{width:22px;height:22px}
-.cta__ring{position:absolute;inset:-22px;animation:spin 18s linear infinite;pointer-events:none}
-.cta__ring text{font-family:var(--mono);font-size:8.4px;letter-spacing:.32em;fill:var(--bone-dim);text-transform:uppercase}
-@keyframes spin{to{transform:rotate(360deg)}}
-
 /* ---------- footer ---------- */
 .footer{padding:40px var(--pad) 28px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);gap:24px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
 .footer h4{font-weight:400;color:var(--bone-dim);margin-bottom:10px;font-size:11px}
@@ -297,7 +295,7 @@ section{position:relative}
 
 @media (prefers-reduced-motion:reduce){
   .wa__btn::before{animation:none}
-  .grain,.cta__ring,.scroll-ind i::after,.flash__tag.free::before{animation:none}
+  .grain,.scroll-ind i::after,.flash__tag.free::before{animation:none}
 }
 </style>
 </head>
@@ -365,8 +363,6 @@ section{position:relative}
 </svg>
 
 <div class="grain" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><span>VER</span></div>
-<div class="cursor-dot" aria-hidden="true"></div>
 
 <!-- ====== preloader ====== -->
 <div class="loader" aria-hidden="true">
@@ -384,7 +380,13 @@ section{position:relative}
     <a href="#trabajos" data-hover><span>Trabajos</span><span>Trabajos</span></a>
     <a href="#disponibles" data-hover><span>Disponibles</span><span>Disponibles</span></a>
   </nav>
-  <a href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" class="nav__cta" data-hover>Agendá ↗</a>
+  <div class="nav__book">
+    <button type="button" class="nav__cta" aria-expanded="false" aria-haspopup="true">Sacá turno <span class="nav__caret">↓</span></button>
+    <div class="nav__menu">
+      <a href="https://wa.me/34657945527?text=Hola%20Santino!%20Quiero%20consultar%20por%20un%20tatuaje" target="_blank" rel="noopener"><span>WhatsApp</span><small>+34 657 94 55 27</small></a>
+      <a href="https://ig.me/m/santino_tt" target="_blank" rel="noopener"><span>Instagram</span><small>@santino_tt</small></a>
+    </div>
+  </div>
 </header>
 
 <main id="top">
@@ -500,7 +502,10 @@ section{position:relative}
       <div class="label">04 — Trabajos</div>
       <h2 class="h2 reveal-up"><span class="ru">Piel <span class="g">&amp;</span> tinta</span></h2>
     </div>
-    <span class="work__hint">← Deslizá / Scroll →</span>
+    <div class="work__ctrl">
+      <span class="work__hint">Deslizá para ver más →</span>
+      <div class="work__arrows"><button type="button" class="work__prev" aria-label="Trabajos anteriores">←</button><button type="button" class="work__next" aria-label="Más trabajos">→</button></div>
+    </div>
   </div>
   <div class="work__pin">
     <div class="work__track">
@@ -521,7 +526,7 @@ section{position:relative}
   <div class="label">05 — Proceso</div>
   <h2 class="h2 reveal-up"><span class="ru">De la idea a la piel</span></h2>
   <div class="steps">
-    <div class="step"><div class="step__n">01</div><div><h3>Escribime</h3><p>Mandame un MD con tu idea, referencias, zona del cuerpo y tamaño aproximado.</p></div></div>
+    <div class="step"><div class="step__n">01</div><div><h3>Escribime</h3><p>Por WhatsApp o Instagram, con tu idea, referencias, zona del cuerpo y tamaño aproximado.</p></div></div>
     <div class="step"><div class="step__n">02</div><div><h3>Diseño</h3><p>Armo un diseño a medida y lo ajustamos juntos hasta que te cierre del todo.</p></div></div>
     <div class="step"><div class="step__n">03</div><div><h3>Sesión</h3><p>Reservás con una seña, coordinamos fecha y tatuamos con material descartable.</p></div></div>
     <div class="step"><div class="step__n">04</div><div><h3>Healed</h3><p>Te paso los cuidados y hacemos seguimiento hasta que cicatrice perfecto.</p></div></div>
@@ -552,7 +557,7 @@ section{position:relative}
       <h2 class="h2 reveal-up"><span class="ru">Antes de <span class="g">tatuarte</span></span></h2>
     </div>
     <div class="faq__list">
-      <div class="qa"><button aria-expanded="false">¿Cómo saco turno?<span class="qa__ico"></span></button><div class="qa__a"><p>Por mensaje directo en Instagram (@santino_tt). Contame tu idea, zona y tamaño y te paso presupuesto y fechas disponibles.</p></div></div>
+      <div class="qa"><button aria-expanded="false">¿Cómo saco turno?<span class="qa__ico"></span></button><div class="qa__a"><p>Por <a href="https://wa.me/34657945527?text=Hola%20Santino!%20Quiero%20consultar%20por%20un%20tatuaje" target="_blank" rel="noopener">WhatsApp (+34 657 94 55 27)</a> o por mensaje directo en <a href="https://ig.me/m/santino_tt" target="_blank" rel="noopener">Instagram (@santino_tt)</a>. Contame tu idea, zona y tamaño y te paso presupuesto y fechas disponibles.</p></div></div>
       <div class="qa"><button aria-expanded="false">¿Se deja seña?<span class="qa__ico"></span></button><div class="qa__a"><p>Sí, para reservar la fecha se deja una seña que se descuenta del valor final del tatuaje.</p></div></div>
       <div class="qa"><button aria-expanded="false">¿Puedo llevar mi propio diseño?<span class="qa__ico"></span></button><div class="qa__a"><p>Podés traer referencias. Sobre esa base armo un diseño propio, adaptado a tu cuerpo y a mi estilo.</p></div></div>
       <div class="qa"><button aria-expanded="false">¿Cómo cuido el tatuaje?<span class="qa__ico"></span></button><div class="qa__a"><p>Al terminar te explico todo: limpieza, crema, nada de sol ni pileta las primeras semanas. Cualquier duda me escribís.</p></div></div>
@@ -561,22 +566,12 @@ section{position:relative}
   </div>
 </section>
 
-<!-- ====== CTA ====== -->
-<section class="cta" id="agenda">
-  <p class="cta__small">Agenda abierta — Córdoba, AR</p>
-  <h2 class="cta__big reveal-up"><span class="ru">Agendá <span class="g">al</span> MD</span></h2>
-  <a class="cta__btn" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-magnetic>
-    <svg class="cta__ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="circ" d="M50 50 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs><text><textPath href="#circ">Santino TT · Blackwork · Dotwork · Córdoba ·</textPath></text></svg>
-    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Escribime</span>
-  </a>
-</section>
-
 </main>
 
 <footer class="footer">
   <div><h4>Estudio</h4><span>Santino TT</span><br><span>Córdoba, Argentina</span></div>
   <div><h4>Redes</h4><a href="https://www.instagram.com/santino_tt/" target="_blank" rel="noopener" data-hover>@santino_tt</a><a href="https://www.instagram.com/santinoroselli_/" target="_blank" rel="noopener" data-hover>@santinoroselli_</a></div>
-  <div><h4>Turnos</h4><a href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover>Agenda al MD ↗</a><a href="https://wa.me/34657945527" target="_blank" rel="noopener" data-hover>WhatsApp ↗</a></div>
+  <div><h4>Turnos</h4><a href="https://wa.me/34657945527?text=Hola%20Santino!%20Quiero%20consultar%20por%20un%20tatuaje" target="_blank" rel="noopener">WhatsApp ↗</a><a href="https://ig.me/m/santino_tt" target="_blank" rel="noopener">Instagram ↗</a></div>
   <div><h4>Hora local</h4><span id="clock">--:--</span></div>
   <div class="footer__mega" aria-hidden="true">SANTINO<em>TT</em></div>
   <div class="footer__copy"><span>© <span id="year"></span> Santino Roselli</span><a href="#top" data-hover style="margin:0">Volver arriba ↑</a></div>
@@ -743,15 +738,40 @@ section{position:relative}
     gsap.from(r.querySelector('.tl__c'), { x: 40, opacity: 0, duration: 1.1, ease, scrollTrigger: { trigger: r, start: 'top 85%' } });
   });
 
-  /* ---------- galería horizontal pineada ---------- */
-  const mm = gsap.matchMedia();
-  mm.add('(min-width: 821px)', () => {
-    const wt = document.querySelector('.work__track');
-    const dist = () => wt.scrollWidth - innerWidth;
-    gsap.to(wt, { x: () => -dist(), ease: 'none',
-      scrollTrigger: { trigger: '.work__pin', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 1, invalidateOnRefresh: true,
-        onUpdate: s => gsap.set('.work__progress i', { width: s.progress * 100 + '%' }) } });
+  /* ---------- galería horizontal: se recorre deslizando, el scroll vertical la saltea ---------- */
+  const wt = document.querySelector('.work__track');
+  const prev = document.querySelector('.work__prev'), next = document.querySelector('.work__next');
+  const bar = document.querySelector('.work__progress i');
+  const syncWork = () => {
+    const max = wt.scrollWidth - wt.clientWidth;
+    bar.style.width = (max > 0 ? (wt.scrollLeft / max) * 100 : 100) + '%';
+    prev.disabled = wt.scrollLeft <= 2;
+    next.disabled = wt.scrollLeft >= max - 2;
+  };
+  wt.addEventListener('scroll', syncWork, { passive: true });
+  addEventListener('resize', syncWork);
+  syncWork();
+  const step = () => wt.querySelector('.card').offsetWidth + parseFloat(getComputedStyle(wt).columnGap || 24);
+  prev.addEventListener('click', () => wt.scrollBy({ left: -step(), behavior: 'smooth' }));
+  next.addEventListener('click', () => wt.scrollBy({ left: step(), behavior: 'smooth' }));
+  /* arrastrar con el mouse */
+  let down = false, sx = 0, sl = 0, moved = false;
+  wt.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'mouse') return;
+    down = true; moved = false; sx = e.clientX; sl = wt.scrollLeft;
   });
+  addEventListener('pointermove', e => {
+    if (!down) return;
+    const dx = e.clientX - sx;
+    if (Math.abs(dx) > 4) { moved = true; wt.classList.add('dragging'); }
+    if (moved) wt.scrollLeft = sl - dx;
+  });
+  addEventListener('pointerup', () => {
+    if (!down) return;
+    down = false;
+    wt.classList.remove('dragging');
+  });
+  wt.addEventListener('dragstart', e => e.preventDefault());
 
   /* ---------- pasos del proceso ---------- */
   gsap.from('.step', { y: 80, opacity: 0, duration: 1.2, stagger: .12, ease,
@@ -781,30 +801,12 @@ section{position:relative}
     });
   });
 
-  /* ---------- cursor ---------- */
-  if (fine) {
-    const c = document.querySelector('.cursor'), d = document.querySelector('.cursor-dot');
-    const cx = gsap.quickTo(c, 'x', { duration: .45, ease: 'power3' }), cy = gsap.quickTo(c, 'y', { duration: .45, ease: 'power3' });
-    window.addEventListener('mousemove', e => { cx(e.clientX); cy(e.clientY); gsap.set(d, { x: e.clientX, y: e.clientY }); });
-    document.querySelectorAll('[data-hover], .style-row__head').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        const isHead = el.classList.contains('style-row__head');
-        c.classList.add('is-hover');
-        c.querySelector('span').textContent = el.closest('.card') ? 'VER' : el.closest('.flash__item') ? 'PEDIR' : isHead ? (el.closest('.open') ? 'CERRAR' : 'VER') : '';
-        if (!el.closest('.card, .flash__item') && !isHead) c.classList.remove('is-hover'), gsap.to(c, { scale: 1.6, duration: .3 });
-      });
-      el.addEventListener('mouseleave', () => { c.classList.remove('is-hover'); gsap.to(c, { scale: 1, duration: .3 }); });
-    });
-
-    /* botón magnético */
-    document.querySelectorAll('[data-magnetic]').forEach(b => {
-      b.addEventListener('mousemove', e => {
-        const r = b.getBoundingClientRect();
-        gsap.to(b, { x: (e.clientX - r.left - r.width / 2) * .4, y: (e.clientY - r.top - r.height / 2) * .4, duration: .6, ease: 'power3.out' });
-      });
-      b.addEventListener('mouseleave', () => gsap.to(b, { x: 0, y: 0, duration: 1, ease: 'elastic.out(1,.4)' }));
-    });
-  }
+  /* ---------- menú de turnos (WhatsApp / Instagram) ---------- */
+  const book = document.querySelector('.nav__book'), bookBtn = book.querySelector('button');
+  const setBook = open => { book.classList.toggle('open', open); bookBtn.setAttribute('aria-expanded', open); };
+  bookBtn.addEventListener('click', e => { e.stopPropagation(); setBook(!book.classList.contains('open')); });
+  document.addEventListener('click', e => { if (!book.contains(e.target)) setBook(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setBook(false); });
 
   /* ---------- reloj Córdoba + año ---------- */
   const clock = document.getElementById('clock');
