@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Santino TT — Tattoo Studio</title>
+<meta name="description" content="Santino Roselli — tatuador en Córdoba, Argentina. Blackwork, microrrealismo, dotwork y línea fina. Diseños disponibles, agenda por MD.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0a0a;
+  --ink-2:#121212;
+  --ink-3:#1b1b1b;
+  --bone:#ebe6dd;
+  --bone-dim:#8d8880;
+  --line:rgba(235,230,221,.14);
+  /* acentos (colores que eligió Santino), solo en detalles */
+  --green:#4f7d5f;
+  --blue:#5b81ad;
+  --gray:#73777d;
+  --accent:var(--green);
+  --display:'Anton',Impact,sans-serif;
+  --gothic:'Instrument Serif',Georgia,serif;
+  --sans:'Inter Tight',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --pad:clamp(16px,4vw,56px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink)}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--ink);color:var(--bone);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.loading{overflow:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+::selection{background:var(--blue);color:var(--bone)}
+
+/* ---------- grano ---------- */
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:90;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-5%,3%)}40%{transform:translate(4%,-6%)}60%{transform:translate(-7%,-2%)}80%{transform:translate(3%,7%)}100%{transform:translate(0,0)}}
+
+/* ---------- preloader ---------- */
+.loader{position:fixed;inset:0;z-index:100;background:var(--bone);color:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:var(--pad)}
+.loader__top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.loader__count{font-family:var(--display);font-size:clamp(96px,22vw,320px);line-height:.8;align-self:flex-end}
+.loader__bar{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--green)}
+
+/* ---------- cursor ---------- */
+.cursor,.cursor-dot{position:fixed;top:0;left:0;pointer-events:none;z-index:95;border-radius:50%;mix-blend-mode:difference}
+.cursor{width:38px;height:38px;margin:-19px 0 0 -19px;border:1px solid #fff;transition:width .35s,height .35s,margin .35s,background .35s;display:grid;place-items:center}
+.cursor span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#000;opacity:0;transition:opacity .2s}
+.cursor.is-hover{width:84px;height:84px;margin:-42px 0 0 -42px;background:#fff}
+.cursor.is-hover span{opacity:1}
+.cursor-dot{width:5px;height:5px;margin:-2.5px 0 0 -2.5px;background:#fff}
+@media (hover:none){.cursor,.cursor-dot{display:none}}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:18px var(--pad);background:var(--ink);border-bottom:1px solid var(--line);color:var(--bone)}
+.nav__logo{font-family:var(--display);font-size:22px;letter-spacing:.02em;display:flex;align-items:baseline;gap:4px}
+.nav__logo em{font-style:normal;color:transparent;-webkit-text-stroke:1px var(--bone)}
+.nav__links{display:flex;gap:32px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.nav__links a{position:relative;overflow:hidden;display:inline-block;height:1.3em}
+.nav__links a span{display:block;transition:transform .45s cubic-bezier(.7,0,.2,1)}
+.nav__links a span:last-child{position:absolute;top:100%}
+.nav__links a:hover span{transform:translateY(-100%)}
+.nav__cta{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--bone);border-radius:99px;padding:10px 18px;transition:background .3s,color .3s,border-color .3s}
+.nav__cta:hover{background:var(--green);border-color:var(--green)}
+@media (max-width:820px){.nav__links{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;display:flex;flex-direction:column;padding:clamp(112px,15vh,150px) var(--pad) 40px;overflow:hidden}
+.hero__orn{flex:none;width:clamp(110px,12vw,180px);height:auto;align-self:end;color:var(--bone);opacity:.9;pointer-events:none}
+.hero__orn path,.hero__orn circle,.hero__orn line{fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.hero__meta{display:flex;justify-content:space-between;gap:24px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--bone-dim);margin-bottom:2vh;flex-wrap:wrap}
+.hero__meta b{color:var(--bone);font-weight:500}
+.hero__title{font-family:var(--display);font-weight:400;font-size:clamp(72px,18.5vw,340px);line-height:.86;letter-spacing:0;text-transform:uppercase;display:flex;align-items:flex-end;gap:.06em;white-space:nowrap;margin-left:-.02em}
+.hero__title .tt{color:transparent;-webkit-text-stroke:2px var(--bone)}
+.hero__title .tt .char:last-child{-webkit-text-stroke-color:var(--blue)}
+.line-mask{overflow:hidden;display:inline-flex;padding:.04em .05em .02em;margin:0 -.05em}
+.char{display:inline-block;will-change:transform}
+.hero__bottom{display:grid;grid-template-columns:1fr auto auto;align-items:end;gap:24px;margin-top:3vh;border-top:1px solid var(--line);padding-top:20px}
+.hero__lead{max-width:440px;font-size:clamp(15px,1.2vw,18px);line-height:1.45;color:var(--bone-dim)}
+.hero__lead strong{color:var(--bone);font-weight:500}
+.scroll-ind{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:12px;color:var(--bone-dim)}
+.scroll-ind i{display:block;width:1px;height:48px;background:var(--line);position:relative;overflow:hidden}
+.scroll-ind i::after{content:"";position:absolute;left:0;top:-50%;width:1px;height:50%;background:var(--bone);animation:drip 1.8s cubic-bezier(.6,0,.3,1) infinite}
+@keyframes drip{to{top:100%}}
+@media (max-width:820px){.hero__orn{display:none}.hero__bottom{grid-template-columns:1fr}}
+
+/* ---------- marquee ---------- */
+.marquee{border-block:1px solid var(--line);overflow:hidden;padding:22px 0;background:var(--ink)}
+.marquee__track{display:flex;width:max-content;will-change:transform}
+.marquee__item{font-family:var(--display);font-size:clamp(40px,6vw,92px);text-transform:uppercase;line-height:1;display:flex;align-items:center;gap:.5em;padding-right:.5em;white-space:nowrap}
+.marquee__item .o{color:transparent;-webkit-text-stroke:1px var(--bone)}
+.marquee__item svg{width:.5em;height:.5em;flex:none;color:var(--blue)}
+
+/* ---------- secciones base ---------- */
+section{position:relative}
+.sec{padding:clamp(96px,14vw,200px) var(--pad)}
+.label{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--bone-dim);display:flex;align-items:center;gap:10px;margin-bottom:40px}
+.label::before{content:"";width:7px;height:7px;background:var(--green);transform:rotate(45deg)}
+.h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(52px,9vw,150px);line-height:.88}
+.h2 .g{font-family:var(--gothic);font-style:italic;text-transform:none;font-weight:400;font-size:1.02em;letter-spacing:-.01em}
+.reveal-up{overflow:hidden}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
+.about__img{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--ink-2);border:1px solid var(--line)}
+.about__img .media{position:absolute;inset:-12% 0;}
+.about__tag{position:absolute;left:16px;bottom:16px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--bone);color:var(--ink);padding:6px 10px}
+.about__text{font-size:clamp(26px,3.3vw,52px);line-height:1.12;letter-spacing:-.015em;font-weight:400}
+.about__text .w{opacity:.14;transition:none}
+.about__text em{font-family:var(--gothic);font-style:italic;font-size:1.1em;color:var(--blue)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:64px;border-top:1px solid var(--line)}
+.stat{padding:24px 0 0;border-right:1px solid var(--line);padding-left:20px}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:0}
+.stat__n{font-family:var(--display);font-size:clamp(48px,6vw,96px);line-height:1}
+.stat__l{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--bone-dim);margin-top:8px}
+@media (max-width:820px){.about{grid-template-columns:1fr}.about__img{max-width:420px}}
+
+/* ---------- estilos (lista con imagen flotante) ---------- */
+.styles__list{list-style:none;border-top:1px solid var(--line);margin-top:56px}
+.style-row{border-bottom:1px solid var(--line)}
+.style-row__head{all:unset;box-sizing:border-box;cursor:pointer;width:100%;position:relative;display:grid;grid-template-columns:80px 1fr auto auto;align-items:center;gap:clamp(16px,2.4vw,40px);padding:clamp(20px,3vw,36px) clamp(16px,2.4vw,40px);overflow:hidden}
+.style-row__head:focus-visible{outline:1px solid var(--blue);outline-offset:-1px}
+.style-row__head::before{content:"";position:absolute;inset:0;background:var(--bone);transform:scaleY(0);transform-origin:bottom;transition:transform .55s cubic-bezier(.7,0,.2,1);z-index:0}
+.style-row__head>*{position:relative;z-index:1;transition:color .4s}
+.style-row__n{font-family:var(--mono);font-size:12px;color:var(--bone-dim)}
+.style-row__t{font-family:var(--display);font-size:clamp(40px,7vw,112px);text-transform:uppercase;line-height:.9;transition:transform .55s cubic-bezier(.7,0,.2,1),color .4s}
+.style-row__d{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--bone-dim);max-width:240px;text-align:right;line-height:1.5}
+.style-row__ico{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;position:relative;transition:transform .5s cubic-bezier(.7,0,.2,1),background .3s,border-color .3s}
+.style-row__ico::before,.style-row__ico::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:1px;background:currentColor;transform:translate(-50%,-50%)}
+.style-row__ico::after{transform:translate(-50%,-50%) rotate(90deg)}
+.style-row.open .style-row__ico{transform:rotate(45deg);background:var(--green);border-color:var(--green);color:var(--bone)}
+.style-row.open .style-row__n{color:var(--green)}
+@media (hover:hover){
+  .style-row__head:hover::before{transform:scaleY(1)}
+  .style-row__head:hover>*{color:var(--ink)}
+  .style-row__head:hover .style-row__ico{border-color:rgba(10,10,10,.25)}
+  .style-row.open .style-row__head:hover .style-row__ico{color:var(--bone)}
+  .style-row__head:hover .style-row__t{transform:translateX(16px)}
+}
+.style-row__panel{height:0;overflow:hidden}
+.style-row__inner{padding:4px clamp(16px,2.4vw,40px) clamp(28px,3.5vw,48px) calc(80px + clamp(32px,4.8vw,80px))}
+.style-row__info p{font-size:clamp(16px,1.3vw,19px);line-height:1.55;color:var(--bone-dim);max-width:380px}
+.style-row__info a{display:inline-block;margin-top:24px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--blue);padding-bottom:4px;color:var(--bone)}
+.style-row__info a:hover{color:var(--blue)}
+.style-row__imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(8px,1.2vw,16px)}
+.style-row__img{position:relative;width:min(360px,100%);aspect-ratio:4/5;overflow:hidden;border:1px solid var(--line);background:var(--ink-2)}
+.style-row__cap{position:absolute;left:12px;bottom:12px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;background:rgba(10,10,10,.7);border:1px solid var(--line)}
+.style-row__img .media{position:absolute;inset:0;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.style-row__img:hover .media{transform:scale(1.05)}
+
+@media (max-width:820px){
+  .style-row__head{grid-template-columns:32px minmax(0,1fr) auto;gap:12px;padding-inline:4px}
+  .style-row__t{font-size:min(10vw,64px)}
+  .style-row__d{display:none}
+  .style-row__ico{display:block;width:36px;height:36px}
+  .style-row__inner{padding:0 4px 28px 48px}
+  .style-row__img{width:min(300px,100%)}
+}
+/* variantes de placeholder por estilo */
+.media.st-black svg *{fill:var(--bone);stroke:#141414;stroke-width:2.4}
+.media.st-black svg .f{fill:#141414}
+.media.st-dot svg *{fill:url(#dots);stroke:var(--bone);stroke-width:1}
+.media.st-fine svg *{stroke-width:.8}
+.media.st-micro svg *{stroke-width:1.2}
+.media.st-micro{background:radial-gradient(120% 90% at 50% 30%,#2a2c2f 0%,#0e0e0e 70%)}
+
+/* ---------- historia ---------- */
+.tl{position:relative;margin-top:72px}
+.tl__line{position:absolute;left:clamp(110px,22vw,340px);top:0;bottom:0;width:1px;background:var(--line)}
+.tl__line i{position:absolute;left:0;top:0;width:1px;height:0;background:linear-gradient(var(--bone),var(--blue))}
+.tl__row{display:grid;grid-template-columns:clamp(110px,22vw,340px) 1fr;align-items:start;border-bottom:1px solid var(--line);padding:clamp(24px,3vw,40px) 0}
+.tl__y{font-family:var(--display);font-size:clamp(44px,8vw,128px);line-height:.85;color:transparent;-webkit-text-stroke:1px var(--bone-dim);transition:color .5s,-webkit-text-stroke-color .5s}
+.tl__row.on .tl__y{color:var(--bone);-webkit-text-stroke-color:var(--bone)}
+.tl__c{position:relative;padding-left:clamp(20px,4vw,64px)}
+.tl__c::before{content:"";position:absolute;left:-5px;top:10px;width:9px;height:9px;background:var(--ink);border:1px solid var(--bone);transform:rotate(45deg);transition:background .4s}
+.tl__row.on .tl__c::before{background:var(--blue);border-color:var(--blue)}
+.tl__c h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(26px,2.8vw,44px);line-height:1;margin-bottom:10px}
+.tl__c p{color:var(--bone-dim);font-size:clamp(15px,1.2vw,18px);line-height:1.55;max-width:520px}
+
+/* ---------- galería horizontal ---------- */
+.work{padding-top:clamp(96px,14vw,200px);overflow:hidden}
+.work__head{padding:0 var(--pad);display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.work__hint{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--bone-dim)}
+.work__pin{height:100vh;display:flex;align-items:center}
+.work__track{display:flex;gap:clamp(16px,2vw,32px);padding:0 var(--pad);will-change:transform}
+.card{flex:none;width:clamp(260px,28vw,420px);display:flex;flex-direction:column;gap:14px}
+.card:nth-child(even){margin-top:12vh}
+.card__img{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--ink-2);border:1px solid var(--line)}
+.card__img .media{position:absolute;inset:0;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.card:hover .card__img .media{transform:scale(1.06)}
+.card__meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.card__meta span:last-child{color:var(--bone-dim)}
+.work__progress{position:absolute;left:var(--pad);right:var(--pad);bottom:32px;height:1px;background:var(--line)}
+.work__progress i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--blue)}
+@media (max-width:820px){
+  .work__pin{height:auto;padding:56px 0}
+  .work__track{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .work__track::-webkit-scrollbar{display:none}
+  .card{scroll-snap-align:start;width:76vw}
+  .card:nth-child(even){margin-top:0}
+  .work__progress{display:none}
+}
+
+/* ---------- media (placeholders con arte lineal / fotos reales) ---------- */
+.media{background:radial-gradient(120% 90% at 50% 30%,#1d1d1d 0%,#0e0e0e 70%);display:grid;place-items:center;color:var(--bone);background-size:cover;background-position:center}
+.media svg{width:58%;height:auto;opacity:.92}
+.media svg *{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.media svg .f{fill:currentColor;stroke:none}
+.media.has-img svg{display:none}
+.media.has-img{filter:grayscale(1) contrast(1.05)}
+.card:hover .media.has-img,.flash__item:hover .media.has-img{filter:grayscale(0)}
+
+/* ---------- proceso ---------- */
+.process{background:var(--bone);color:var(--ink);border-top:6px solid var(--green)}
+.process .label{color:#6d685f}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);margin-top:72px;border-top:1px solid rgba(10,10,10,.18)}
+.step{padding:28px 24px 0 0;border-right:1px solid rgba(10,10,10,.18);min-height:300px;display:flex;flex-direction:column;justify-content:space-between}
+.step+.step{padding-left:24px}
+.step:last-child{border-right:0}
+.step__n{font-family:var(--display);font-size:clamp(72px,9vw,140px);line-height:.8;color:transparent;-webkit-text-stroke:1.2px var(--ink);transition:color .4s,-webkit-text-stroke-color .4s}
+.step:hover .step__n{color:var(--green);-webkit-text-stroke-color:var(--green)}
+.step h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(28px,2.6vw,40px);line-height:1;margin:28px 0 12px}
+.step p{font-size:15px;line-height:1.5;color:#4a4740;max-width:280px}
+@media (max-width:900px){.steps{grid-template-columns:1fr 1fr}.step{min-height:0;padding-bottom:32px;border-bottom:1px solid rgba(10,10,10,.18)}.step:nth-child(2){border-right:0}.step:nth-child(3){padding-left:0}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}.step,.step+.step{padding-left:0;border-right:0}}
+
+/* ---------- flash ---------- */
+.flash__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.6vw,24px);margin-top:64px}
+.flash__item{position:relative;aspect-ratio:1;background:var(--ink-2);border:1px solid var(--line);overflow:hidden;transform-style:preserve-3d;transition:border-color .3s}
+.flash__item:hover{border-color:rgba(235,230,221,.5)}
+.flash__item .media{position:absolute;inset:0}
+.flash__item .media svg{width:50%}
+.flash__tag{position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border:1px solid var(--line);background:rgba(10,10,10,.6);backdrop-filter:blur(4px)}
+.flash__tag.taken{color:var(--bone-dim);text-decoration:line-through}
+.flash__tag.free::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:1px;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.2}}
+.flash__name{position:absolute;bottom:12px;left:12px;right:12px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;transform:translateY(140%);transition:transform .45s cubic-bezier(.7,0,.2,1)}
+.flash__item:hover .flash__name{transform:none}
+@media (max-width:900px){.flash__grid{grid-template-columns:repeat(2,1fr)}.flash__name{transform:none}}
+
+/* ---------- FAQ ---------- */
+.faq{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px)}
+.faq__list{border-top:1px solid var(--line)}
+.qa{border-bottom:1px solid var(--line)}
+.qa button{all:unset;cursor:pointer;width:100%;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:28px 0;font-size:clamp(18px,1.8vw,26px);font-weight:500;letter-spacing:-.01em}
+.qa button:focus-visible{outline:1px solid var(--bone);outline-offset:4px}
+.qa__ico{flex:none;width:28px;height:28px;border:1px solid var(--line);border-radius:50%;position:relative;transition:transform .45s cubic-bezier(.7,0,.2,1),background .3s}
+.qa__ico::before,.qa__ico::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1px;background:currentColor;transform:translate(-50%,-50%)}
+.qa__ico::after{transform:translate(-50%,-50%) rotate(90deg)}
+.qa.open .qa__ico{transform:rotate(45deg);background:var(--green);border-color:var(--green);color:var(--bone)}
+.qa__a{height:0;overflow:hidden}
+.qa__a p{padding:0 0 28px;color:var(--bone-dim);font-size:16px;line-height:1.6;max-width:560px}
+@media (max-width:820px){.faq{grid-template-columns:1fr}}
+
+/* ---------- CTA ---------- */
+.cta{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px var(--pad);overflow:hidden;border-top:1px solid var(--line)}
+.cta__small{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--bone-dim);margin-bottom:24px}
+.cta__big{font-family:var(--display);text-transform:uppercase;font-size:clamp(72px,16vw,280px);line-height:.84}
+.cta__big .g{font-family:var(--gothic);font-style:italic;text-transform:none;font-size:1em;color:var(--green)}
+.cta__btn{margin-top:56px;width:clamp(150px,16vw,200px);aspect-ratio:1;border-radius:50%;background:var(--bone);color:var(--ink);display:grid;place-items:center;font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.08em;position:relative;will-change:transform;transition:background .4s,color .4s}
+.cta__btn:hover{background:var(--green);color:var(--bone)}
+.cta__btn span{display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.cta__btn span svg{width:22px;height:22px}
+.cta__ring{position:absolute;inset:-22px;animation:spin 18s linear infinite;pointer-events:none}
+.cta__ring text{font-family:var(--mono);font-size:8.4px;letter-spacing:.32em;fill:var(--bone-dim);text-transform:uppercase}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- footer ---------- */
+.footer{padding:40px var(--pad) 28px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);gap:24px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.footer h4{font-weight:400;color:var(--bone-dim);margin-bottom:10px;font-size:11px}
+.footer a{display:block;margin-bottom:6px;width:fit-content;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .4s}
+.footer a:hover{background-size:100% 1px;color:var(--blue)}
+.footer__mega{grid-column:1/-1;font-family:var(--display);font-size:clamp(64px,19.5vw,330px);line-height:.8;text-align:center;margin-top:48px;letter-spacing:-.01em;color:transparent;-webkit-text-stroke:1px rgba(235,230,221,.35);user-select:none}
+.footer__mega em{font-style:normal;-webkit-text-stroke:0;color:var(--bone)}
+.footer__copy{grid-column:1/-1;display:flex;justify-content:space-between;color:var(--bone-dim);font-size:11px;flex-wrap:wrap;gap:8px}
+@media (max-width:820px){.footer{grid-template-columns:1fr 1fr}}
+
+/* ---------- burbuja WhatsApp ---------- */
+.wa{position:fixed;right:clamp(16px,2.4vw,32px);bottom:clamp(16px,2.4vw,32px);z-index:85;display:flex;align-items:center;gap:12px;opacity:0;transform:translateY(24px) scale(.8);pointer-events:none;transition:opacity .5s,transform .6s cubic-bezier(.2,.9,.3,1.3)}
+.wa.show{opacity:1;transform:none;pointer-events:auto}
+.wa__btn{position:relative;width:60px;height:60px;border-radius:50%;background:var(--green);color:var(--bone);display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.45);transition:transform .35s cubic-bezier(.2,.9,.3,1.3),background .3s}
+.wa__btn svg{width:28px;height:28px}
+.wa__btn::before{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid var(--green);animation:waPulse 2.4s ease-out infinite}
+@keyframes waPulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.7);opacity:0}}
+.wa__tip{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;background:var(--bone);color:var(--ink);padding:9px 14px;border-radius:99px;white-space:nowrap;opacity:0;transform:translateX(10px);transition:opacity .35s,transform .45s cubic-bezier(.2,.9,.3,1)}
+.wa:hover .wa__tip,.wa:focus-visible .wa__tip{opacity:1;transform:none}
+.wa:hover .wa__btn{transform:scale(1.08) rotate(-8deg)}
+@media (hover:none){.wa__tip{display:none}.wa__btn{width:54px;height:54px}}
+
+@media (prefers-reduced-motion:reduce){
+  .wa__btn::before{animation:none}
+  .grain,.cta__ring,.scroll-ind i::after,.flash__tag.free::before{animation:none}
+}
+</style>
+</head>
+<body class="loading">
+
+<!-- ====== Arte lineal reutilizable (placeholders hasta cargar fotos reales) ====== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="dots" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r="1" fill="#ebe6dd"/></pattern>
+    <symbol id="a-dagger" viewBox="0 0 200 260">
+      <path d="M100 20 L113 160 L100 182 L87 160 Z"/><line x1="100" y1="30" x2="100" y2="170"/>
+      <path d="M64 160 Q82 150 100 160 Q118 150 136 160 Q118 172 100 166 Q82 172 64 160Z"/>
+      <path d="M93 168 h14 v44 h-14z"/><line x1="93" y1="180" x2="107" y2="186"/><line x1="93" y1="192" x2="107" y2="198"/>
+      <circle cx="100" cy="222" r="10"/><circle class="f" cx="100" cy="222" r="3"/>
+      <path d="M60 110 Q40 120 52 140 Q62 128 74 134" /><path d="M140 90 Q162 98 152 120 Q140 108 128 114"/>
+    </symbol>
+    <symbol id="a-flower" viewBox="0 0 200 260">
+      <g transform="translate(100 92)">
+        <ellipse rx="14" ry="38" transform="translate(0 -44)"/><ellipse rx="14" ry="38" transform="rotate(45) translate(0 -44)"/>
+        <ellipse rx="14" ry="38" transform="rotate(90) translate(0 -44)"/><ellipse rx="14" ry="38" transform="rotate(135) translate(0 -44)"/>
+        <ellipse rx="14" ry="38" transform="rotate(180) translate(0 -44)"/><ellipse rx="14" ry="38" transform="rotate(225) translate(0 -44)"/>
+        <ellipse rx="14" ry="38" transform="rotate(270) translate(0 -44)"/><ellipse rx="14" ry="38" transform="rotate(315) translate(0 -44)"/>
+        <circle r="14"/><circle class="f" r="5"/>
+      </g>
+      <path d="M100 150 Q96 200 104 250"/><path d="M101 200 Q124 184 140 196 Q122 212 101 204"/>
+    </symbol>
+    <symbol id="a-eye" viewBox="0 0 200 260">
+      <path d="M30 130 Q100 60 170 130 Q100 200 30 130Z"/><circle cx="100" cy="130" r="26"/><circle class="f" cx="100" cy="130" r="11"/>
+      <line x1="100" y1="40" x2="100" y2="72"/><line x1="56" y1="56" x2="70" y2="82"/><line x1="144" y1="56" x2="130" y2="82"/>
+      <line x1="22" y1="96" x2="44" y2="108"/><line x1="178" y1="96" x2="156" y2="108"/>
+      <path d="M86 176 Q100 210 92 236 M114 176 Q104 206 112 232"/><circle class="f" cx="92" cy="240" r="4"/>
+    </symbol>
+    <symbol id="a-moon" viewBox="0 0 200 260">
+      <path d="M128 38 A84 84 0 1 0 128 222 A66 66 0 1 1 128 38Z"/>
+      <path d="M150 96 l6 16 16 6 -16 6 -6 16 -6 -16 -16 -6 16 -6z"/><path d="M160 170 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/>
+      <circle class="f" cx="140" cy="60" r="2.5"/><circle class="f" cx="172" cy="140" r="2.5"/>
+    </symbol>
+    <symbol id="a-snake" viewBox="0 0 200 260">
+      <path d="M100 30 C160 40 160 90 100 100 C40 110 40 160 100 170 C150 178 156 220 112 234"/>
+      <path d="M100 42 C146 52 146 84 100 90 C52 98 52 172 100 160 C138 166 140 210 112 222"/>
+      <path d="M100 30 Q84 24 80 36 Q86 46 100 42"/><circle class="f" cx="88" cy="34" r="2.4"/>
+      <path d="M78 35 l-12 -4 M78 35 l-12 4"/>
+    </symbol>
+    <symbol id="a-orn" viewBox="0 0 200 260">
+      <path d="M100 20 L140 130 L100 240 L60 130Z"/><path d="M100 54 L124 130 L100 206 L76 130Z"/>
+      <circle cx="100" cy="130" r="12"/><circle class="f" cx="100" cy="130" r="4"/>
+      <path d="M60 130 Q30 110 24 130 Q30 150 60 130"/><path d="M140 130 Q170 110 176 130 Q170 150 140 130"/>
+      <circle class="f" cx="100" cy="14" r="3"/><circle class="f" cx="100" cy="246" r="3"/>
+    </symbol>
+    <symbol id="a-eagle" viewBox="0 0 200 260">
+      <path d="M100 70 C80 40 40 30 14 40 C40 52 46 62 40 70 C60 66 70 76 66 88 C80 82 90 90 100 104"/>
+      <path d="M100 70 C120 40 160 30 186 40 C160 52 154 62 160 70 C140 66 130 76 134 88 C120 82 110 90 100 104"/>
+      <path d="M92 66 Q100 50 108 66"/><path d="M100 58 l-6 8 h12z"/>
+      <path d="M100 104 C88 130 88 160 100 190 C112 160 112 130 100 104"/>
+      <path d="M90 186 L84 226 M100 192 L100 236 M110 186 L116 226"/>
+      <path d="M88 150 l-14 12 M112 150 l14 12"/>
+    </symbol>
+    <symbol id="a-rose" viewBox="0 0 200 260">
+      <path d="M100 70 C80 70 70 88 80 100 C70 110 78 132 100 132 C122 132 130 110 120 100 C130 88 120 70 100 70Z"/>
+      <path d="M100 84 C90 84 88 96 96 100 C88 106 96 118 104 114 C114 110 112 98 104 96 C110 90 106 84 100 84Z"/>
+      <path d="M100 132 Q96 180 100 240"/><path d="M98 170 Q70 160 60 176 Q80 190 98 178"/><path d="M100 200 Q128 190 138 206 Q118 218 100 208"/>
+      <path d="M96 150 l-8 -6 M102 220 l8 -6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span>VER</span></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<!-- ====== preloader ====== -->
+<div class="loader" aria-hidden="true">
+  <div class="loader__top"><span>Santino TT</span><span>Córdoba — AR</span></div>
+  <div class="loader__count"><span id="count">0</span></div>
+  <div class="loader__bar"></div>
+</div>
+
+<!-- ====== nav ====== -->
+<header class="nav">
+  <a href="#top" class="nav__logo" data-hover>SANTINO <em>TT</em></a>
+  <nav class="nav__links">
+    <a href="#sobre" data-hover><span>Sobre mí</span><span>Sobre mí</span></a>
+    <a href="#historia" data-hover><span>Historia</span><span>Historia</span></a>
+    <a href="#trabajos" data-hover><span>Trabajos</span><span>Trabajos</span></a>
+    <a href="#disponibles" data-hover><span>Disponibles</span><span>Disponibles</span></a>
+  </nav>
+  <a href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" class="nav__cta" data-hover>Agendá ↗</a>
+</header>
+
+<main id="top">
+
+<!-- ====== hero ====== -->
+<section class="hero">
+
+  <div class="hero__meta">
+    <span>Tatuador — <b>Santino Roselli</b></span>
+    <span>Blackwork · Microrrealismo · Dotwork · Línea fina</span>
+    <span>📍 <b>Córdoba, AR</b></span>
+  </div>
+  <h1 class="hero__title" aria-label="Santino TT">
+    <span class="line-mask"><span class="split">SANTINO</span></span>
+    <span class="line-mask"><span class="split tt">TT</span></span>
+  </h1>
+  <div class="hero__bottom">
+    <p class="hero__lead"><strong>Tinta negra, piel y paciencia.</strong> Diseños propios y piezas a medida desde mi estudio en Córdoba. De una máquina de 50 dólares a un estudio propio.</p>
+    <div class="scroll-ind"><i></i>Scroll</div>
+    <svg class="hero__orn" viewBox="0 0 400 520" aria-hidden="true">
+    <!-- daga ornamental que se dibuja sola -->
+    <path class="draw" d="M200 20 L226 320 L200 368 L174 320 Z"/>
+    <path class="draw" d="M200 40 L200 340"/>
+    <path class="draw" d="M120 318 Q160 296 200 318 Q240 296 280 318 Q240 344 200 330 Q160 344 120 318Z"/>
+    <path class="draw" d="M186 334 h28 v90 h-28z"/>
+    <path class="draw" d="M186 356 l28 12 M186 380 l28 12 M186 404 l28 12"/>
+    <circle class="draw" cx="200" cy="448" r="20"/>
+    <circle class="draw" cx="200" cy="448" r="7"/>
+    <path class="draw" d="M200 90 C120 120 80 180 120 230 C150 200 170 210 174 240"/>
+    <path class="draw" d="M200 150 C290 160 330 230 290 280 C266 252 246 256 228 280"/>
+    <path class="draw" d="M120 230 C90 250 70 240 60 220 C84 222 96 214 104 200"/>
+    <path class="draw" d="M290 280 C320 300 340 290 350 268 C326 272 312 262 306 248"/>
+    <circle class="draw" cx="80" cy="120" r="4"/><circle class="draw" cx="330" cy="180" r="4"/>
+    <path class="draw" d="M300 80 l8 20 20 8 -20 8 -8 20 -8 -20 -20 -8 20 -8z"/>
+    <path class="draw" d="M70 380 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5z"/>
+  </svg>
+  </div>
+</section>
+
+<!-- ====== marquee ====== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <div class="marquee__item">
+      <span>Blackwork</span><svg viewBox="0 0 20 20"><path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8Z" fill="currentColor"/></svg>
+      <span class="o">Microrrealismo</span><svg viewBox="0 0 20 20"><path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8Z" fill="currentColor"/></svg>
+      <span>Dotwork</span><svg viewBox="0 0 20 20"><path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8Z" fill="currentColor"/></svg>
+      <span class="o">Línea fina</span><svg viewBox="0 0 20 20"><path d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8Z" fill="currentColor"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- ====== sobre ====== -->
+<section class="sec" id="sobre">
+  <div class="label">01 — Sobre mí</div>
+  <div class="about">
+    <div class="about__img">
+      <div class="media" data-img="img/santino.jpg"><svg viewBox="0 0 200 260"><use href="#a-eye"/></svg></div>
+      <span class="about__tag">Santino Roselli</span>
+    </div>
+    <div>
+      <p class="about__text" data-words>Soy Santino. Empecé a tatuar en España con una máquina de Amazon y hoy tengo mi propio estudio en Córdoba. Trabajo en <em>negro</em>: blackwork, microrrealismo, dotwork y línea fina. Cada pieza se diseña para vos y para que se vea igual de bien el día que cicatriza.</p>
+      <div class="stats">
+        <div class="stat"><div class="stat__n" data-count="2021" data-raw>0</div><div class="stat__l">Primera máquina</div></div>
+        <div class="stat"><div class="stat__n" data-count="2024" data-raw>0</div><div class="stat__l">Estudio propio</div></div>
+        <div class="stat"><div class="stat__n" data-count="2000" data-suffix="+">0</div><div class="stat__l">Seguidores en IG</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== estilos ====== -->
+<section class="sec" id="estilos" style="padding-top:0">
+  <div class="label">02 — Estilos</div>
+  <h2 class="h2 reveal-up"><span class="ru">Lo que <span class="g">hago</span></span></h2>
+  <ul class="styles__list">
+    <li class="style-row">
+      <button class="style-row__head" aria-expanded="false"><span class="style-row__n">(01)</span><span class="style-row__t">Blackwork</span><span class="style-row__d">Negro sólido, contraste y fuerza</span><span class="style-row__ico"></span></button>
+      <div class="style-row__panel"><div class="style-row__inner"><div class="style-row__img"><div class="media st-black" data-img="img/estilos/blackwork.jpg"><svg viewBox="0 0 200 260"><use href="#a-orn"/></svg></div><span class="style-row__cap">Ejemplo — Blackwork</span></div></div></div>
+    </li>
+    <li class="style-row">
+      <button class="style-row__head" aria-expanded="false"><span class="style-row__n">(02)</span><span class="style-row__t">Microrrealismo</span><span class="style-row__d">Detalle realista en tamaño chico</span><span class="style-row__ico"></span></button>
+      <div class="style-row__panel"><div class="style-row__inner"><div class="style-row__img"><div class="media st-micro" data-img="img/estilos/microrrealismo.jpg"><svg viewBox="0 0 200 260"><use href="#a-eagle"/></svg></div><span class="style-row__cap">Ejemplo — Microrrealismo</span></div></div></div>
+    </li>
+    <li class="style-row">
+      <button class="style-row__head" aria-expanded="false"><span class="style-row__n">(03)</span><span class="style-row__t">Dotwork</span><span class="style-row__d">Sombras construidas punto a punto</span><span class="style-row__ico"></span></button>
+      <div class="style-row__panel"><div class="style-row__inner"><div class="style-row__img"><div class="media st-dot" data-img="img/estilos/dotwork.jpg"><svg viewBox="0 0 200 260"><use href="#a-moon"/></svg></div><span class="style-row__cap">Ejemplo — Dotwork</span></div></div></div>
+    </li>
+    <li class="style-row">
+      <button class="style-row__head" aria-expanded="false"><span class="style-row__n">(04)</span><span class="style-row__t">Línea fina</span><span class="style-row__d">Trazo fino, piezas delicadas</span><span class="style-row__ico"></span></button>
+      <div class="style-row__panel"><div class="style-row__inner"><div class="style-row__img"><div class="media st-fine" data-img="img/estilos/lineafina.jpg"><svg viewBox="0 0 200 260"><use href="#a-flower"/></svg></div><span class="style-row__cap">Ejemplo — Línea fina</span></div></div></div>
+    </li>
+  </ul>
+</section>
+
+<!-- ====== historia ====== -->
+<section class="sec" id="historia" style="padding-top:0">
+  <div class="label">03 — Historia</div>
+  <h2 class="h2 reveal-up"><span class="ru">Cómo <span class="g">empezó</span></span></h2>
+  <div class="tl">
+    <div class="tl__line"><i></i></div>
+    <div class="tl__row"><span class="tl__y">2019</span><div class="tl__c"><h3>Fin del colegio</h3><p>En diciembre termino el secundario, todavía sin saber que el tatuaje iba a ser lo mío.</p></div></div>
+    <div class="tl__row"><span class="tl__y">2020</span><div class="tl__c"><h3>Rumbo a España</h3><p>En febrero me voy a España, me agarra la pandemia y termino trabajando tres años y cuatro meses en una cocina.</p></div></div>
+    <div class="tl__row"><span class="tl__y">2021</span><div class="tl__c"><h3>La primera máquina</h3><p>Conozco el tatuaje. Me regalan una máquina de Amazon de 50 dólares y arranco a practicar con un amigo.</p></div></div>
+    <div class="tl__row"><span class="tl__y">2023</span><div class="tl__c"><h3>Vuelta a Argentina</h3><p>A mitad de año vuelvo al país y me lo empiezo a tomar en serio. Tatuar pasa a ser mi trabajo.</p></div></div>
+    <div class="tl__row"><span class="tl__y">2024</span><div class="tl__c"><h3>Estudio propio</h3><p>A fines de año alquilo mi estudio en Córdoba. Al día de hoy sigo ahí, con la agenda abierta.</p></div></div>
+  </div>
+</section>
+
+<!-- ====== trabajos (scroll horizontal) ====== -->
+<section class="work" id="trabajos">
+  <div class="work__head">
+    <div>
+      <div class="label">04 — Trabajos</div>
+      <h2 class="h2 reveal-up"><span class="ru">Piel <span class="g">&amp;</span> tinta</span></h2>
+    </div>
+    <span class="work__hint">← Deslizá / Scroll →</span>
+  </div>
+  <div class="work__pin">
+    <div class="work__track">
+      <article class="card" data-hover><div class="card__img"><div class="media" data-img="img/trabajo-01.jpg"><svg viewBox="0 0 200 260"><use href="#a-eagle"/></svg></div></div><div class="card__meta"><span>Águila</span><span>Antebrazo · Microrrealismo</span></div></article>
+      <article class="card" data-hover><div class="card__img"><div class="media" data-img="img/trabajo-02.jpg"><svg viewBox="0 0 200 260"><use href="#a-orn"/></svg></div></div><div class="card__meta"><span>Ornamental</span><span>Brazo · Blackwork</span></div></article>
+      <article class="card" data-hover><div class="card__img"><div class="media" data-img="img/trabajo-03.jpg"><svg viewBox="0 0 200 260"><use href="#a-rose"/></svg></div></div><div class="card__meta"><span>Rosa</span><span>Muñeca · Línea fina</span></div></article>
+      <article class="card" data-hover><div class="card__img"><div class="media" data-img="img/trabajo-04.jpg"><svg viewBox="0 0 200 260"><use href="#a-dagger"/></svg></div></div><div class="card__meta"><span>Daga</span><span>Pierna · Blackwork</span></div></article>
+      <article class="card" data-hover><div class="card__img"><div class="media" data-img="img/trabajo-05.jpg"><svg viewBox="0 0 200 260"><use href="#a-snake"/></svg></div></div><div class="card__meta"><span>Serpiente</span><span>Antebrazo · Dotwork</span></div></article>
+      <article class="card" data-hover><div class="card__img"><div class="media" data-img="img/trabajo-06.jpg"><svg viewBox="0 0 200 260"><use href="#a-moon"/></svg></div></div><div class="card__meta"><span>Luna</span><span>Costilla · Dotwork</span></div></article>
+      <article class="card" data-hover><div class="card__img"><div class="media" data-img="img/trabajo-07.jpg"><svg viewBox="0 0 200 260"><use href="#a-flower"/></svg></div></div><div class="card__meta"><span>Flor</span><span>Brazo · Línea fina</span></div></article>
+    </div>
+    <div class="work__progress"><i></i></div>
+  </div>
+</section>
+
+<!-- ====== proceso ====== -->
+<section class="sec process" id="proceso">
+  <div class="label">05 — Proceso</div>
+  <h2 class="h2 reveal-up"><span class="ru">De la idea a la piel</span></h2>
+  <div class="steps">
+    <div class="step"><div class="step__n">01</div><div><h3>Escribime</h3><p>Mandame un MD con tu idea, referencias, zona del cuerpo y tamaño aproximado.</p></div></div>
+    <div class="step"><div class="step__n">02</div><div><h3>Diseño</h3><p>Armo un diseño a medida y lo ajustamos juntos hasta que te cierre del todo.</p></div></div>
+    <div class="step"><div class="step__n">03</div><div><h3>Sesión</h3><p>Reservás con una seña, coordinamos fecha y tatuamos con material descartable.</p></div></div>
+    <div class="step"><div class="step__n">04</div><div><h3>Healed</h3><p>Te paso los cuidados y hacemos seguimiento hasta que cicatrice perfecto.</p></div></div>
+  </div>
+</section>
+
+<!-- ====== diseños disponibles ====== -->
+<section class="sec" id="disponibles">
+  <div class="label">06 — Diseños disponibles</div>
+  <h2 class="h2 reveal-up"><span class="ru">Flash <span class="g">disponible</span></span></h2>
+  <div class="flash__grid">
+    <a class="flash__item" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-tilt><div class="media" data-img="img/flash-01.jpg"><svg viewBox="0 0 200 260"><use href="#a-dagger"/></svg></div><span class="flash__tag free">Disponible</span><div class="flash__name"><span>Daga</span><span>Pedir ↗</span></div></a>
+    <a class="flash__item" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-tilt><div class="media" data-img="img/flash-02.jpg"><svg viewBox="0 0 200 260"><use href="#a-flower"/></svg></div><span class="flash__tag free">Disponible</span><div class="flash__name"><span>Flor</span><span>Pedir ↗</span></div></a>
+    <a class="flash__item" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-tilt><div class="media" data-img="img/flash-03.jpg"><svg viewBox="0 0 200 260"><use href="#a-eye"/></svg></div><span class="flash__tag taken">Tomado</span><div class="flash__name"><span>Ojo</span><span>—</span></div></a>
+    <a class="flash__item" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-tilt><div class="media" data-img="img/flash-04.jpg"><svg viewBox="0 0 200 260"><use href="#a-moon"/></svg></div><span class="flash__tag free">Disponible</span><div class="flash__name"><span>Luna</span><span>Pedir ↗</span></div></a>
+    <a class="flash__item" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-tilt><div class="media" data-img="img/flash-05.jpg"><svg viewBox="0 0 200 260"><use href="#a-snake"/></svg></div><span class="flash__tag free">Disponible</span><div class="flash__name"><span>Serpiente</span><span>Pedir ↗</span></div></a>
+    <a class="flash__item" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-tilt><div class="media" data-img="img/flash-06.jpg"><svg viewBox="0 0 200 260"><use href="#a-orn"/></svg></div><span class="flash__tag taken">Tomado</span><div class="flash__name"><span>Ornamento</span><span>—</span></div></a>
+    <a class="flash__item" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-tilt><div class="media" data-img="img/flash-07.jpg"><svg viewBox="0 0 200 260"><use href="#a-rose"/></svg></div><span class="flash__tag free">Disponible</span><div class="flash__name"><span>Rosa</span><span>Pedir ↗</span></div></a>
+    <a class="flash__item" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-tilt><div class="media" data-img="img/flash-08.jpg"><svg viewBox="0 0 200 260"><use href="#a-eagle"/></svg></div><span class="flash__tag free">Disponible</span><div class="flash__name"><span>Águila</span><span>Pedir ↗</span></div></a>
+  </div>
+</section>
+
+<!-- ====== FAQ ====== -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="faq">
+    <div>
+      <div class="label">07 — Preguntas</div>
+      <h2 class="h2 reveal-up"><span class="ru">Antes de <span class="g">tatuarte</span></span></h2>
+    </div>
+    <div class="faq__list">
+      <div class="qa"><button aria-expanded="false">¿Cómo saco turno?<span class="qa__ico"></span></button><div class="qa__a"><p>Por mensaje directo en Instagram (@santino_tt). Contame tu idea, zona y tamaño y te paso presupuesto y fechas disponibles.</p></div></div>
+      <div class="qa"><button aria-expanded="false">¿Se deja seña?<span class="qa__ico"></span></button><div class="qa__a"><p>Sí, para reservar la fecha se deja una seña que se descuenta del valor final del tatuaje.</p></div></div>
+      <div class="qa"><button aria-expanded="false">¿Puedo llevar mi propio diseño?<span class="qa__ico"></span></button><div class="qa__a"><p>Podés traer referencias. Sobre esa base armo un diseño propio, adaptado a tu cuerpo y a mi estilo.</p></div></div>
+      <div class="qa"><button aria-expanded="false">¿Cómo cuido el tatuaje?<span class="qa__ico"></span></button><div class="qa__a"><p>Al terminar te explico todo: limpieza, crema, nada de sol ni pileta las primeras semanas. Cualquier duda me escribís.</p></div></div>
+      <div class="qa"><button aria-expanded="false">¿Qué pasa si quiero un flash tomado?<span class="qa__ico"></span></button><div class="qa__a"><p>Los diseños disponibles se tatúan una sola vez. Si uno ya está tomado, podemos hacer algo con la misma onda, pero único.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CTA ====== -->
+<section class="cta" id="agenda">
+  <p class="cta__small">Agenda abierta — Córdoba, AR</p>
+  <h2 class="cta__big reveal-up"><span class="ru">Agendá <span class="g">al</span> MD</span></h2>
+  <a class="cta__btn" href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover data-magnetic>
+    <svg class="cta__ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="circ" d="M50 50 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/></defs><text><textPath href="#circ">Santino TT · Blackwork · Dotwork · Córdoba ·</textPath></text></svg>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Escribime</span>
+  </a>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div><h4>Estudio</h4><span>Santino TT</span><br><span>Córdoba, Argentina</span></div>
+  <div><h4>Redes</h4><a href="https://www.instagram.com/santino_tt/" target="_blank" rel="noopener" data-hover>@santino_tt</a><a href="https://www.instagram.com/santinoroselli_/" target="_blank" rel="noopener" data-hover>@santinoroselli_</a></div>
+  <div><h4>Turnos</h4><a href="https://ig.me/m/santino_tt" target="_blank" rel="noopener" data-hover>Agenda al MD ↗</a><a href="https://wa.me/34657945527" target="_blank" rel="noopener" data-hover>WhatsApp ↗</a></div>
+  <div><h4>Hora local</h4><span id="clock">--:--</span></div>
+  <div class="footer__mega" aria-hidden="true">SANTINO<em>TT</em></div>
+  <div class="footer__copy"><span>© <span id="year"></span> Santino Roselli</span><a href="#top" data-hover style="margin:0">Volver arriba ↑</a></div>
+</footer>
+
+<!-- ====== burbuja WhatsApp ====== -->
+<a class="wa" href="https://wa.me/34657945527?text=Hola%20Santino!%20Quiero%20consultar%20por%20un%20tatuaje" target="_blank" rel="noopener" aria-label="Escribime por WhatsApp" data-hover>
+  <span class="wa__tip">Escribime por WhatsApp</span>
+  <span class="wa__btn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36a9.42 9.42 0 0 1-1.44-5.01c0-5.2 4.24-9.44 9.45-9.44 2.52 0 4.89.99 6.68 2.77a9.38 9.38 0 0 1 2.76 6.68c0 5.21-4.24 9.45-9.46 9.45zm8.04-17.49A11.3 11.3 0 0 0 12.05.67C5.78.67.68 5.77.68 12.04c0 2 .52 3.96 1.52 5.68L.58 23.33l5.74-1.51a11.33 11.33 0 0 0 5.73 1.46h.01c6.27 0 11.37-5.1 11.37-11.37 0-3.04-1.18-5.89-3.34-8.04z"/></svg></span>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  gsap.registerPlugin(ScrollTrigger);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const ease = 'expo.out';
+
+  /* ---------- fotos reales: si existe el archivo en /img, reemplaza el dibujo ---------- */
+  const loadMedia = (el, src) => {
+    if (!src) return;
+    const im = new Image();
+    im.onload = () => { el.style.backgroundImage = `url("${src}")`; el.classList.add('has-img'); };
+    im.src = src;
+  };
+  document.querySelectorAll('.media[data-img]').forEach(el => loadMedia(el, el.dataset.img));
+
+  /* ---------- smooth scroll ---------- */
+  let lenis = null;
+  if (!reduce && window.Lenis) {
+    lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+    lenis.stop();
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); lenis.scrollTo(t, { duration: 1.6 }); }
+    }));
+  }
+
+  /* ---------- split de letras ---------- */
+  document.querySelectorAll('.split').forEach(el => {
+    el.innerHTML = [...el.textContent].map(c => `<span class="char">${c}</span>`).join('');
+  });
+  document.querySelectorAll('.ru').forEach(el => { el.style.display = 'inline-block'; });
+
+  /* ---------- preloader ---------- */
+  const count = { v: 0 }, countEl = document.getElementById('count');
+  const intro = gsap.timeline({ paused: true });
+  gsap.set('.hero .char', { yPercent: 110 });
+  gsap.set('.hero__meta > *, .hero__bottom > *', { opacity: 0, y: 20 });
+  const drawPaths = document.querySelectorAll('.hero__orn .draw');
+  drawPaths.forEach(p => { const l = p.getTotalLength(); p.style.strokeDasharray = l; p.style.strokeDashoffset = l; });
+
+  intro
+    .to('.loader', { yPercent: -100, duration: 1.1, ease: 'expo.inOut' })
+    .to('.hero .char', { yPercent: 0, duration: 1.3, stagger: .05, ease }, '-=.45')
+    .to('.hero__meta > *, .hero__bottom > *', { opacity: 1, y: 0, duration: 1, stagger: .08, ease }, '-=1')
+    .to(drawPaths, { strokeDashoffset: 0, duration: 2.4, stagger: .08, ease: 'power2.inOut' }, '-=1.2')
+    .add(() => document.querySelector('.wa').classList.add('show'), 2.4)
+    .add(() => { document.body.classList.remove('loading'); lenis && lenis.start(); document.querySelector('.loader').style.display = 'none'; }, 1.1);
+
+  gsap.timeline()
+    .to(count, { v: 100, duration: reduce ? .2 : 2, ease: 'power2.inOut',
+      onUpdate: () => countEl.textContent = Math.round(count.v) })
+    .to('.loader__bar', { width: '100%', duration: reduce ? .2 : 2, ease: 'power2.inOut' }, 0)
+    .add(() => intro.play());
+
+  /* ---------- hero parallax ---------- */
+  gsap.to('.hero__title', { yPercent: 30, opacity: .2, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  if (fine) {
+    window.addEventListener('mousemove', e => {
+      const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+      gsap.to('.hero__orn', { x: x * 14, y: y * 14, duration: 1.2, ease: 'power3.out' });
+    });
+  }
+
+  /* ---------- marquee con velocidad de scroll ---------- */
+  const track = document.querySelector('.marquee__track');
+  const item = track.querySelector('.marquee__item');
+  for (let i = 0; i < 3; i++) track.appendChild(item.cloneNode(true));
+  let mx = 0, dir = 1, boost = 0;
+  const w = () => item.offsetWidth;
+  gsap.ticker.add(() => {
+    mx -= (1.1 + boost) * dir;
+    boost *= .92;
+    if (mx <= -w()) mx += w();
+    if (mx > 0) mx -= w();
+    track.style.transform = `translate3d(${mx}px,0,0)`;
+  });
+  ScrollTrigger.create({ onUpdate: s => { dir = s.direction; boost = Math.min(Math.abs(s.getVelocity()) / 220, 14); } });
+
+  /* ---------- títulos que suben ---------- */
+  document.querySelectorAll('.reveal-up .ru').forEach(el => {
+    gsap.from(el, { yPercent: 105, duration: 1.3, ease,
+      scrollTrigger: { trigger: el, start: 'top 88%' } });
+  });
+
+  /* ---------- texto palabra por palabra ---------- */
+  document.querySelectorAll('[data-words]').forEach(p => {
+    const walk = node => {
+      [...node.childNodes].forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(t => {
+            if (!t.trim()) frag.appendChild(document.createTextNode(t));
+            else { const s = document.createElement('span'); s.className = 'w'; s.textContent = t; frag.appendChild(s); }
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) { n.classList.add('w'); }
+      });
+    };
+    walk(p);
+    gsap.to(p.querySelectorAll('.w'), { opacity: 1, stagger: .1, ease: 'none',
+      scrollTrigger: { trigger: p, start: 'top 80%', end: 'bottom 45%', scrub: true } });
+  });
+
+  /* ---------- parallax foto sobre mí ---------- */
+  gsap.fromTo('.about__img .media', { yPercent: -8 }, { yPercent: 8, ease: 'none',
+    scrollTrigger: { trigger: '.about__img', start: 'top bottom', end: 'bottom top', scrub: true } });
+  gsap.from('.about__img', { clipPath: 'inset(100% 0 0 0)', duration: 1.6, ease: 'expo.inOut',
+    scrollTrigger: { trigger: '.about__img', start: 'top 80%' } });
+
+  /* ---------- contadores ---------- */
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const o = { v: 0 }, end = +el.dataset.count, suf = el.dataset.suffix || '';
+    gsap.to(o, { v: end, duration: 2, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 90%' },
+      onUpdate: () => el.textContent = ('raw' in el.dataset ? Math.round(o.v) : Math.round(o.v).toLocaleString('es-AR')) + suf });
+  });
+
+  /* ---------- filas de estilos: al presionar se abre una imagen de ejemplo ---------- */
+  const closeRow = row => {
+    row.classList.remove('open');
+    row.querySelector('.style-row__head').setAttribute('aria-expanded', 'false');
+    gsap.to(row.querySelector('.style-row__panel'), { height: 0, duration: .7, ease: 'expo.inOut' });
+  };
+  document.querySelectorAll('.style-row').forEach(row => {
+    const head = row.querySelector('.style-row__head'), panel = row.querySelector('.style-row__panel');
+    head.addEventListener('click', () => {
+      const open = !row.classList.contains('open');
+      document.querySelectorAll('.style-row.open').forEach(o => o !== row && closeRow(o));
+      if (!open) return closeRow(row);
+      row.classList.add('open');
+      head.setAttribute('aria-expanded', 'true');
+      gsap.to(panel, { height: 'auto', duration: .9, ease: 'expo.inOut', onComplete: () => ScrollTrigger.refresh() });
+      gsap.fromTo(panel.querySelector('.style-row__img'), { y: 40, opacity: 0, clipPath: 'inset(100% 0 0 0)' },
+        { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0)', duration: 1.1, delay: .2, ease });
+    });
+  });
+  gsap.from('.style-row', { y: 60, opacity: 0, duration: 1.1, stagger: .1, ease,
+    scrollTrigger: { trigger: '.styles__list', start: 'top 85%' } });
+
+  /* ---------- historia ---------- */
+  gsap.to('.tl__line i', { height: '100%', ease: 'none',
+    scrollTrigger: { trigger: '.tl', start: 'top 60%', end: 'bottom 60%', scrub: true } });
+  document.querySelectorAll('.tl__row').forEach(r => {
+    ScrollTrigger.create({ trigger: r, start: 'top 60%', onEnter: () => r.classList.add('on'), onLeaveBack: () => r.classList.remove('on') });
+    gsap.from(r.querySelector('.tl__c'), { x: 40, opacity: 0, duration: 1.1, ease, scrollTrigger: { trigger: r, start: 'top 85%' } });
+  });
+
+  /* ---------- galería horizontal pineada ---------- */
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 821px)', () => {
+    const wt = document.querySelector('.work__track');
+    const dist = () => wt.scrollWidth - innerWidth;
+    gsap.to(wt, { x: () => -dist(), ease: 'none',
+      scrollTrigger: { trigger: '.work__pin', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 1, invalidateOnRefresh: true,
+        onUpdate: s => gsap.set('.work__progress i', { width: s.progress * 100 + '%' }) } });
+  });
+
+  /* ---------- pasos del proceso ---------- */
+  gsap.from('.step', { y: 80, opacity: 0, duration: 1.2, stagger: .12, ease,
+    scrollTrigger: { trigger: '.steps', start: 'top 85%' } });
+
+  /* ---------- flash: entrada + tilt 3D ---------- */
+  gsap.from('.flash__item', { y: 60, opacity: 0, scale: .94, duration: 1, stagger: .06, ease,
+    scrollTrigger: { trigger: '.flash__grid', start: 'top 85%' } });
+  if (fine) document.querySelectorAll('[data-tilt]').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      gsap.to(el, { rotateY: x * 14, rotateX: -y * 14, transformPerspective: 700, duration: .5, ease: 'power3.out' });
+    });
+    el.addEventListener('mouseleave', () => gsap.to(el, { rotateX: 0, rotateY: 0, duration: .8, ease: 'elastic.out(1,.5)' }));
+  });
+
+  /* ---------- FAQ ---------- */
+  document.querySelectorAll('.qa').forEach(qa => {
+    const btn = qa.querySelector('button'), ans = qa.querySelector('.qa__a');
+    btn.addEventListener('click', () => {
+      const open = !qa.classList.contains('open');
+      document.querySelectorAll('.qa.open').forEach(o => { if (o !== qa) { o.classList.remove('open'); o.querySelector('button').setAttribute('aria-expanded', 'false'); gsap.to(o.querySelector('.qa__a'), { height: 0, duration: .5, ease: 'power3.inOut' }); } });
+      qa.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open);
+      gsap.to(ans, { height: open ? 'auto' : 0, duration: .6, ease: 'power3.inOut', onComplete: () => ScrollTrigger.refresh() });
+    });
+  });
+
+  /* ---------- cursor ---------- */
+  if (fine) {
+    const c = document.querySelector('.cursor'), d = document.querySelector('.cursor-dot');
+    const cx = gsap.quickTo(c, 'x', { duration: .45, ease: 'power3' }), cy = gsap.quickTo(c, 'y', { duration: .45, ease: 'power3' });
+    window.addEventListener('mousemove', e => { cx(e.clientX); cy(e.clientY); gsap.set(d, { x: e.clientX, y: e.clientY }); });
+    document.querySelectorAll('[data-hover], .style-row__head').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        const isHead = el.classList.contains('style-row__head');
+        c.classList.add('is-hover');
+        c.querySelector('span').textContent = el.closest('.card') ? 'VER' : el.closest('.flash__item') ? 'PEDIR' : isHead ? (el.closest('.open') ? 'CERRAR' : 'VER') : '';
+        if (!el.closest('.card, .flash__item') && !isHead) c.classList.remove('is-hover'), gsap.to(c, { scale: 1.6, duration: .3 });
+      });
+      el.addEventListener('mouseleave', () => { c.classList.remove('is-hover'); gsap.to(c, { scale: 1, duration: .3 }); });
+    });
+
+    /* botón magnético */
+    document.querySelectorAll('[data-magnetic]').forEach(b => {
+      b.addEventListener('mousemove', e => {
+        const r = b.getBoundingClientRect();
+        gsap.to(b, { x: (e.clientX - r.left - r.width / 2) * .4, y: (e.clientY - r.top - r.height / 2) * .4, duration: .6, ease: 'power3.out' });
+      });
+      b.addEventListener('mouseleave', () => gsap.to(b, { x: 0, y: 0, duration: 1, ease: 'elastic.out(1,.4)' }));
+    });
+  }
+
+  /* ---------- reloj Córdoba + año ---------- */
+  const clock = document.getElementById('clock');
+  const tick = () => clock.textContent = new Intl.DateTimeFormat('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'America/Argentina/Cordoba' }).format(new Date()) + ' ART';
+  tick(); setInterval(tick, 1000);
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
