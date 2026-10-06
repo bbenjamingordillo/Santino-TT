@@ -293,6 +293,53 @@ section{position:relative}
 .qa__a p{padding:0 0 28px;color:var(--bone-dim);font-size:16px;line-height:1.6;max-width:560px}
 @media (max-width:820px){.faq{grid-template-columns:1fr}}
 
+/* ---------- formulario de turno ---------- */
+.form-sec{border-top:1px solid var(--line)}
+.form-wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
+.form-intro p{margin-top:28px;color:var(--bone-dim);font-size:clamp(16px,1.3vw,19px);line-height:1.55;max-width:420px}
+.tform{display:flex;flex-direction:column;gap:36px}
+.field{border:0;display:flex;flex-direction:column;gap:12px;min-width:0}
+.field label:not(.chip):not(.drop),.field legend,.field__label{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--bone-dim);padding:0}
+.field legend{margin-bottom:12px}
+.field input[type=text]{all:unset;box-sizing:border-box;width:100%;font-size:clamp(20px,2vw,28px);padding:10px 0 14px;border-bottom:1px solid var(--line);transition:border-color .3s}
+.field input[type=text]::placeholder{color:#4b4844}
+.field input[type=text]:focus{border-color:var(--blue)}
+.field__err{display:none;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:#d98c6f}
+.field.invalid .field__err{display:block}
+.field.invalid input[type=text]{border-color:#d98c6f}
+.field__hint{font-size:13px;color:var(--bone-dim)}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.chip{position:relative;cursor:pointer}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:flex;flex-direction:column;gap:4px;padding:16px 14px;border:1px solid var(--line);border-radius:12px;font-size:16px;font-weight:500;transition:border-color .25s,background .25s,color .25s}
+.chip small{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--bone-dim);transition:color .25s}
+.chip:hover span{border-color:rgba(235,230,221,.4)}
+.chip input:checked+span{background:var(--green);border-color:var(--green);color:var(--bone)}
+.chip input:checked+span small{color:rgba(235,230,221,.8)}
+.chip input:focus-visible+span{outline:1px solid var(--blue);outline-offset:3px}
+.field.invalid .chip span{border-color:rgba(217,140,111,.5)}
+.drop{position:relative;display:block;cursor:pointer;border:1px dashed rgba(235,230,221,.3);border-radius:14px;min-height:150px;overflow:hidden;transition:border-color .3s,background .3s}
+.drop:hover,.drop.over{border-color:var(--blue);background:rgba(91,129,173,.06)}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.drop:focus-within{border-color:var(--blue)}
+.drop__empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--bone-dim);font-size:14px;pointer-events:none}
+.drop__empty svg{width:30px;height:30px}
+.drop__full{display:none;align-items:center;gap:16px;padding:14px}
+.drop.has .drop__empty{display:none}
+.drop.has .drop__full{display:flex}
+.drop.has input{pointer-events:none}
+.drop__full img{width:96px;height:120px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.drop__name{flex:1;font-family:var(--mono);font-size:12px;word-break:break-all;color:var(--bone)}
+.drop__clear{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:18px;position:relative;z-index:1}
+.drop__clear:hover{background:var(--bone);color:var(--ink)}
+.tform__send{all:unset;cursor:pointer;align-self:flex-start;display:inline-flex;align-items:center;gap:12px;background:var(--bone);color:var(--ink);font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.08em;padding:18px 28px;border-radius:99px;transition:background .3s,color .3s,transform .3s}
+.tform__send svg{width:20px;height:20px}
+.tform__send:hover{background:var(--green);color:var(--bone);transform:translateY(-2px)}
+.tform__send:focus-visible{outline:1px solid var(--blue);outline-offset:4px}
+.tform__note{font-size:15px;line-height:1.5;color:var(--bone-dim);min-height:1em}
+.tform__note strong{color:var(--green)}
+@media (max-width:900px){.form-wrap{grid-template-columns:1fr}.chips{grid-template-columns:1fr 1fr}}
+
 /* ---------- footer ---------- */
 .footer{padding:40px var(--pad) 28px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);gap:24px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
 .footer h4{font-weight:400;color:var(--bone-dim);margin-bottom:10px;font-size:11px}
@@ -407,6 +454,7 @@ section{position:relative}
     <div class="nav__menu">
       <a href="https://wa.me/34657945527?text=Hola%20Santino!%20Quiero%20consultar%20por%20un%20tatuaje" target="_blank" rel="noopener"><span>WhatsApp</span><small>+34 657 94 55 27</small></a>
       <a href="https://ig.me/m/santino_tt" target="_blank" rel="noopener"><span>Instagram</span><small>@santino_tt</small></a>
+      <a href="#turno"><span>Formulario</span><small>Contame tu idea</small></a>
     </div>
   </div>
 </header>
@@ -601,6 +649,62 @@ section{position:relative}
       <div class="qa"><button aria-expanded="false">¿Cómo cuido el tatuaje?<span class="qa__ico"></span></button><div class="qa__a"><p>Lavalo con jabón neutro 2 o 3 veces por día, poné crema con vitamina A desde el tercer día (siempre con el tatuaje limpio) y evitá el sol, el mar, los ríos y las piletas durante 15 a 20 días. Tenés la lista completa en <a href="#cuidados">Healed → Ver cuidados</a>.</p></div></div>
       <div class="qa"><button aria-expanded="false">¿Qué pasa si quiero un flash tomado?<span class="qa__ico"></span></button><div class="qa__a"><p>Los diseños disponibles se tatúan una sola vez. Si uno ya está tomado, podemos hacer algo con la misma onda, pero único.</p></div></div>
     </div>
+  </div>
+</section>
+
+<!-- ====== formulario de turno (se envía por WhatsApp) ====== -->
+<section class="sec form-sec" id="turno">
+  <div class="form-wrap">
+    <div class="form-intro">
+      <div class="label">08 — Pedí tu turno</div>
+      <h2 class="h2 reveal-up"><span class="ru">Contame tu <span class="g">idea</span></span></h2>
+      <p>Completá estos datos y al enviar se abre WhatsApp con tu consulta ya escrita. Solo tenés que adjuntar la foto de referencia en el chat.</p>
+    </div>
+
+    <form class="tform" novalidate>
+      <div class="field">
+        <label for="f-name">Nombre</label>
+        <input id="f-name" name="nombre" type="text" autocomplete="given-name" placeholder="Tu nombre" required>
+        <span class="field__err">Decime tu nombre.</span>
+      </div>
+
+      <fieldset class="field">
+        <legend>Tamaño del tatuaje</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="tamano" value="Chico (hasta 5 cm)" required><span>Chico <small>hasta 5 cm</small></span></label>
+          <label class="chip"><input type="radio" name="tamano" value="Mediano (5 a 15 cm)"><span>Mediano <small>5 a 15 cm</small></span></label>
+          <label class="chip"><input type="radio" name="tamano" value="Grande (15 a 25 cm)"><span>Grande <small>15 a 25 cm</small></span></label>
+          <label class="chip"><input type="radio" name="tamano" value="Muy grande (más de 25 cm)"><span>Muy grande <small>+25 cm</small></span></label>
+        </div>
+        <span class="field__err">Elegí un tamaño aproximado.</span>
+      </fieldset>
+
+      <div class="field">
+        <label for="f-zone">Zona del cuerpo</label>
+        <input id="f-zone" name="zona" type="text" list="zonas" placeholder="Ej: antebrazo interno" required>
+        <datalist id="zonas"><option value="Antebrazo"><option value="Brazo"><option value="Muñeca"><option value="Mano"><option value="Hombro"><option value="Espalda"><option value="Pecho"><option value="Costilla"><option value="Pierna"><option value="Gemelo"><option value="Tobillo"><option value="Cuello"></datalist>
+        <span class="field__err">Contame en qué zona va.</span>
+      </div>
+
+      <div class="field">
+        <span class="field__label">Foto de referencia</span>
+        <label class="drop" for="f-photo">
+          <input id="f-photo" name="foto" type="file" accept="image/*">
+          <span class="drop__empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg>
+            <span>Tocá para elegir una imagen</span>
+          </span>
+          <span class="drop__full"><img alt="Vista previa de la referencia"><span class="drop__name"></span><button type="button" class="drop__clear" aria-label="Quitar foto">×</button></span>
+        </label>
+        <span class="field__hint">La vas a adjuntar en el chat de WhatsApp después de enviar.</span>
+      </div>
+
+      <button type="submit" class="tform__send">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36a9.42 9.42 0 0 1-1.44-5.01c0-5.2 4.24-9.44 9.45-9.44 2.52 0 4.89.99 6.68 2.77a9.38 9.38 0 0 1 2.76 6.68c0 5.21-4.24 9.45-9.46 9.45zm8.04-17.49A11.3 11.3 0 0 0 12.05.67C5.78.67.68 5.77.68 12.04c0 2 .52 3.96 1.52 5.68L.58 23.33l5.74-1.51a11.33 11.33 0 0 0 5.73 1.46h.01c6.27 0 11.37-5.1 11.37-11.37 0-3.04-1.18-5.89-3.34-8.04z"/></svg>
+        Enviar por WhatsApp
+      </button>
+      <p class="tform__note" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 
@@ -860,6 +964,62 @@ section{position:relative}
   bookBtn.addEventListener('click', e => { e.stopPropagation(); setBook(!book.classList.contains('open')); });
   document.addEventListener('click', e => { if (!book.contains(e.target)) setBook(false); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') setBook(false); });
+  book.querySelectorAll('.nav__menu a').forEach(a => a.addEventListener('click', () => setBook(false)));
+
+  /* ---------- formulario de turno → WhatsApp ---------- */
+  const tform = document.querySelector('.tform');
+  const photo = tform.querySelector('#f-photo'), drop = tform.querySelector('.drop');
+  const note = tform.querySelector('.tform__note');
+  let previewUrl = null;
+  const clearPhoto = () => {
+    photo.value = ''; drop.classList.remove('has');
+    if (previewUrl) URL.revokeObjectURL(previewUrl), previewUrl = null;
+  };
+  photo.addEventListener('change', () => {
+    const f = photo.files[0];
+    if (!f) return clearPhoto();
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    previewUrl = URL.createObjectURL(f);
+    drop.querySelector('img').src = previewUrl;
+    drop.querySelector('.drop__name').textContent = f.name;
+    drop.classList.add('has');
+  });
+  drop.querySelector('.drop__clear').addEventListener('click', e => { e.preventDefault(); clearPhoto(); });
+  ['dragenter', 'dragover'].forEach(t => drop.addEventListener(t, () => drop.classList.add('over')));
+  ['dragleave', 'drop'].forEach(t => drop.addEventListener(t, () => drop.classList.remove('over')));
+  /* al corregir un campo se borra su error */
+  tform.addEventListener('input', e => e.target.closest('.field')?.classList.remove('invalid'));
+
+  tform.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = tform.nombre.value.trim(), zone = tform.zona.value.trim();
+    const size = tform.querySelector('input[name=tamano]:checked')?.value;
+    const checks = [[tform.nombre, name], [tform.querySelector('.chips'), size], [tform.zona, zone]];
+    let firstBad = null;
+    checks.forEach(([el, ok]) => {
+      const field = el.closest('.field');
+      field.classList.toggle('invalid', !ok);
+      if (!ok && !firstBad) firstBad = field;
+    });
+    if (firstBad) {
+      note.textContent = 'Revisá los campos marcados.';
+      (firstBad.querySelector('input') || firstBad).focus();
+      return;
+    }
+    const hasPhoto = photo.files.length > 0;
+    const msg = [
+      `Hola Santino! Quiero sacar turno para un tatuaje.`,
+      ``,
+      `*Nombre:* ${name}`,
+      `*Tamaño:* ${size}`,
+      `*Zona:* ${zone}`,
+      `*Foto de referencia:* ${hasPhoto ? 'te la mando acá abajo' : 'no tengo todavía'}`
+    ].join('\n');
+    window.open('https://wa.me/34657945527?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+    note.innerHTML = hasPhoto
+      ? '<strong>Listo.</strong> Se abrió WhatsApp con tu consulta. Ahora adjuntá la foto de referencia en el chat y enviá.'
+      : '<strong>Listo.</strong> Se abrió WhatsApp con tu consulta, solo falta enviarla.';
+  });
 
   /* ---------- reloj Córdoba + año ---------- */
   const clock = document.getElementById('clock');
